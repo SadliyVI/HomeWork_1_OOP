@@ -154,9 +154,7 @@ print(f'По мнению студентов преподаватель {lecture
       f'.{lecturer_1.surname} лучше преподавателя {lecturer_2.name[0]}'
       f'.{lecturer_2.surname}? {lecturer_1.__eq__(lecturer_2)}\n')
 
-
 # Work with class Reviewer
-
 
 student_list = [student_1, student_2]
 
@@ -174,8 +172,8 @@ reviewer_2.rate_hw(student_1,'Python', 10)
 reviewer_1.rate_hw(student_2,'Git', 7 )
 
 print(student_1, '\n')
-print(student_2)
-print(f'Студенты равны? {student_1 == student_2}')
+print(student_2, '\n')
+print(f'Студенты равны? {student_1 == student_2}\n')
 
 def get_best_student_on_course(student_list):
     best_student_list = []
@@ -196,13 +194,33 @@ def get_best_student_on_course(student_list):
 
 print(get_best_student_on_course(student_list))
 
+student_3 = Student('Николай', 'Семенов', 'мужской')
+student_4 = Student( 'Полина', 'Гагарина', 'женский')
+student_3.courses_in_progress.append('Python')
+student_4.courses_in_progress.append('Python')
+student_3.grades = {'Python': [10, 8, 9, 8, 10]}
+student_4.grades = {'Python': [9, 8, 9, 10, 10]}
+# students_list = [student_1, student_2, student_3, student_4]
+students_list = []
 
-# cool_mentor = Mentor('Some', 'Buddy')
-# cool_mentor.courses_attached += ['Python']
-#
-# cool_mentor.rate_hw(best_student, 'Python', 10)
-# cool_mentor.rate_hw(best_student, 'Python', 10)
-# cool_mentor.rate_hw(best_student, 'Python', 10)
-#
-# print(best_student.grades)
+def get_average_all_grades(students_list, course):
 
+    if course in [student.courses_in_progress for student in students_list]:
+        total_grade = 0
+        count_students = 0
+        if students_list:
+            for student in students_list:
+                student_average = student.get_average_hw_grade()
+                if student_average is not None:
+                    total_grade += student_average
+                    count_students += 1
+        else:
+            return 'На этом курсе нет студентов'
+
+            return (f'Средняя оценка за курс {course}:'
+                    f' {round(total_grade / count_students, 1)}')
+    else:
+        return 'Курс не преподается'
+for k in students_list:
+    print(k.courses_in_progress[0])
+print(get_average_all_grades(students_list, 'Python'))
