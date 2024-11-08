@@ -200,27 +200,29 @@ student_3.courses_in_progress.append('Python')
 student_4.courses_in_progress.append('Python')
 student_3.grades = {'Python': [10, 8, 9, 8, 10]}
 student_4.grades = {'Python': [9, 8, 9, 10, 10]}
-# students_list = [student_1, student_2, student_3, student_4]
-students_list = []
+
 
 def get_average_all_grades(students_list, course):
-
-    if course in [student.courses_in_progress for student in students_list]:
-        total_grade = 0
-        count_students = 0
-        if students_list:
-            for student in students_list:
-                student_average = student.get_average_hw_grade()
-                if student_average is not None:
-                    total_grade += student_average
-                    count_students += 1
+    if students_list:
+        consolidated_list = []
+        counter = 0
+        for student in students_list:
+            for key, value in student.grades.items():
+                if key == course:
+                    consolidated_list.extend(value)
+                    counter += 1
+        if counter != 0:
+            return (f'Средняя оценка студентов за курс {course}: '
+                    f'{round(sum(consolidated_list) / 
+                             len(consolidated_list), 1)}')
         else:
-            return 'На этом курсе нет студентов'
-
-            return (f'Средняя оценка за курс {course}:'
-                    f' {round(total_grade / count_students, 1)}')
+            return 'Курс не преподается!'
     else:
-        return 'Курс не преподается'
-for k in students_list:
-    print(k.courses_in_progress[0])
+        return 'На этом курсе нет студентов или курс не преподается!'
+
+students_list = [student_1, student_2, student_3, student_4]
+print(get_average_all_grades(students_list, 'Python'))
+print(get_average_all_grades(students_list, 'Java'))
+print(get_average_all_grades(students_list, 'JavaScript'))
+students_list = []
 print(get_average_all_grades(students_list, 'Python'))
