@@ -226,3 +226,31 @@ print(get_average_all_grades(students_list, 'Java'))
 print(get_average_all_grades(students_list, 'JavaScript'))
 students_list = []
 print(get_average_all_grades(students_list, 'Python'))
+
+def get_average_lecturer_rating(lecturers_list, course):
+    if lecturers_list:
+        consolidated_grade = 0
+        counter = 0
+        for lecturer in lecturers_list:
+            for key, value in lecturer.grades_from_students.items():
+                if key == course:
+                    consolidated_grade += sum(value) / len(value)
+                    counter += 1
+        if counter != 0:
+            return (f'Средняя оценка преподавания курса {course}: '
+                    f'{round((consolidated_grade / counter), 1)}')
+        else:
+            return 'Этот курс никем не преподается!'
+    else:
+        return 'Нет данных!'
+
+
+lecturers_list = [lecturer_1, lecturer_2]
+print('\n')
+print(get_average_lecturer_rating(lecturers_list, 'Python'))
+print(get_average_lecturer_rating(lecturers_list, 'Java'))
+print(get_average_lecturer_rating(lecturers_list, 'CSS'))
+print(get_average_lecturer_rating(lecturers_list, 'JavaScript'))
+print('\n')
+lecturers_list = []
+print(get_average_lecturer_rating(lecturers_list, 'Python'))
