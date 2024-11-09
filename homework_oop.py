@@ -1,5 +1,4 @@
-# Homework OOPs
-
+# Homework OOPs part 1
 
 class Student:
     def __init__(self, name, surname, gender):
@@ -59,7 +58,8 @@ class Mentor:
         self.name = name
         self.surname = surname
         self.courses_attached = []
-
+        
+# Class Lecturer
 
 class Lecturer(Mentor):
     def __init__(self, name, surname):
@@ -90,7 +90,8 @@ class Lecturer(Mentor):
             return 'Хуже'
         else:
             return 'Равны'
-
+            
+# Class Reviewer
 
 class Reviewer(Mentor):
     def __init__(self, name, surname):
@@ -175,6 +176,8 @@ print(student_1, '\n')
 print(student_2, '\n')
 print(f'Студенты равны? {student_1 == student_2}\n')
 
+# Getting the best student function (just for myself)
+
 def get_best_student_on_course(student_list):
     best_student_list = []
     i = 0
@@ -192,8 +195,9 @@ def get_best_student_on_course(student_list):
                                      for i in best_student_list)
         return f'Лучшие студенты: {student_list_str}'
 
-print(get_best_student_on_course(student_list))
+# Example usage
 
+print(get_best_student_on_course(student_list))
 student_3 = Student('Николай', 'Семенов', 'мужской')
 student_4 = Student( 'Полина', 'Гагарина', 'женский')
 student_3.courses_in_progress.append('Python')
@@ -201,6 +205,7 @@ student_4.courses_in_progress.append('Python')
 student_3.grades = {'Python': [10, 8, 9, 8, 10]}
 student_4.grades = {'Python': [9, 8, 9, 10, 10]}
 
+# Average course grade function
 
 def get_average_all_grades(students_list, course):
     if students_list:
@@ -220,12 +225,16 @@ def get_average_all_grades(students_list, course):
     else:
         return 'На этом курсе нет студентов или курс не преподается!'
 
+# Example usage
+
 students_list = [student_1, student_2, student_3, student_4]
 print(get_average_all_grades(students_list, 'Python'))
 print(get_average_all_grades(students_list, 'Java'))
 print(get_average_all_grades(students_list, 'JavaScript'))
 students_list = []
 print(get_average_all_grades(students_list, 'Python'))
+
+# Average lecturer rating function
 
 def get_average_lecturer_rating(lecturers_list, course):
     if lecturers_list:
@@ -244,6 +253,7 @@ def get_average_lecturer_rating(lecturers_list, course):
     else:
         return 'Нет данных!'
 
+# Example usage
 
 lecturers_list = [lecturer_1, lecturer_2]
 print('\n')
