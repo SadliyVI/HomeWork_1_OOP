@@ -264,3 +264,9 @@ print(get_average_lecturer_rating(lecturers_list, 'JavaScript'))
 print('\n')
 lecturers_list = []
 print(get_average_lecturer_rating(lecturers_list, 'Python'))
+lecturer_3 = Lecturer('Семен', 'Лобанов')
+lecturer_3.courses_attached += ['MySQL', 'Java']
+lecturer_3.grades_from_students = {'MySQL': [6, 7, 5, 6, 7],
+                                   'Java': [6, 8, 7, 8, 6]}
+lecturers_list = [lecturer_1, lecturer_2, lecturer_3]
+print(get_average_lecturer_rating(lecturers_list, 'Java'))
