@@ -17,7 +17,16 @@ class Student:
                 f'Завершенные курсы: {self.get_finished_courses()}')
 
     def __eq__(self, other):
+        if not isinstance(other, Student):
+            return  NotImplemented
         return self.get_average_hw_grade() == other.get_average_hw_grade()
+
+    # object.__gt__ позволяет реализовать проверку на «больше чем»
+    # для экземпляров пользовательских типов
+    def __gt__(self, other):
+        if not isinstance(other, Student):
+            return  NotImplemented
+        return self.get_average_hw_grade() > other.get_average_hw_grade()
 
     def get_finished_courses(self):
         courses_list = ''
@@ -83,14 +92,33 @@ class Lecturer(Mentor):
         return (f'Имя: {self.name}\nФамилия: {self.surname}\n'
                 f'Средняя оценка за лекции: {self.get_average_grade()}')
 
+    # def __eq__(self, other):
+    #     if self.get_average_grade() > other.get_average_grade():
+    #         return 'Лучше'
+    #     elif self.get_average_grade() < other.get_average_grade():
+    #         return 'Хуже'
+    #     else:
+    #         return 'Равны'
+
     def __eq__(self, other):
-        if self.get_average_grade() > other.get_average_grade():
-            return 'Лучше'
-        elif self.get_average_grade() < other.get_average_grade():
-            return 'Хуже'
-        else:
-            return 'Равны'
-            
+        if not isinstance(other, Lecturer):
+            return NotImplemented
+        return self.get_average_grade() == other.get_average_grade()
+
+    def __gt__(self, other):
+        if not isinstance(other, Lecturer):
+            return NotImplemented
+        return self.get_average_grade() > other.get_average_grade()
+
+    def lecturers_comparison(self, other):
+        if self.__gt__(other) == True:
+            return 'Лучше!'
+        elif self.__gt__(other) == False:
+            return 'Хуже!'
+        elif self.__gt__(other) == NotImplemented:
+            return 'Преподаватель не распознан!'
+        elif self.__eq__(other) == True:
+            return 'Равны!'
 # Class Reviewer
 
 class Reviewer(Mentor):
@@ -151,9 +179,12 @@ student_2.let_grade_lecturer(lecturer_2, 'C#', 10)
 
 print(lecturer_1, '\n')
 print(lecturer_2, '\n')
+# print(f'По мнению студентов преподаватель {lecturer_1.name[0]}'
+#       f'.{lecturer_1.surname} лучше преподавателя {lecturer_2.name[0]}'
+#       f'.{lecturer_2.surname}? {lecturer_1.__eq__(lecturer_2)}\n')
 print(f'По мнению студентов преподаватель {lecturer_1.name[0]}'
       f'.{lecturer_1.surname} лучше преподавателя {lecturer_2.name[0]}'
-      f'.{lecturer_2.surname}? {lecturer_1.__eq__(lecturer_2)}\n')
+      f'.{lecturer_2.surname}? {lecturer_1.lecturers_comparison(lecturer_2)}\n')
 
 # Work with class Reviewer
 
@@ -178,22 +209,40 @@ print(f'Студенты равны? {student_1 == student_2}\n')
 
 # Getting the best student function (just for myself)
 
+# def get_best_student_on_course(student_list):
+#     best_student_list = []
+#     i = 0
+#     max_grade =  max(student_list, key=lambda x: x.get_average_hw_grade())
+#     for student in student_list:
+#         if student.get_average_hw_grade() == max_grade.get_average_hw_grade():
+#             best_student_list.append(i)
+#         i += 1
+#     if len(best_student_list) == 1:
+#         student = student_list[best_student_list[0]]
+#         return f'Лучший студент: {student.name} {student.surname}'
+#     elif len(best_student_list) > 1:
+#         student_list_str = ', '.join(f'{student_list[i].name} '
+#                                      f'{student_list[i].surname}'
+#                                      for i in best_student_list)
+#         return f'Лучшие студенты: {student_list_str}'
+
+# correction of Reviewer comments
+# Оптимизация get_best_student_on_course
 def get_best_student_on_course(student_list):
-    best_student_list = []
-    i = 0
-    max_grade =  max(student_list, key=lambda x: x.get_average_hw_grade())
-    for student in student_list:
-        if student.get_average_hw_grade() == max_grade.get_average_hw_grade():
-            best_student_list.append(i)
-        i += 1
-    if len(best_student_list) == 1:
-        student = student_list[best_student_list[0]]
-        return f'Лучший студент: {student.name} {student.surname}'
-    elif len(best_student_list) > 1:
-        student_list_str = ', '.join(f'{student_list[i].name} '
-                                     f'{student_list[i].surname}'
-                                     for i in best_student_list)
-        return f'Лучшие студенты: {student_list_str}'
+    max_grade = max(student_list, key=lambda student: student.get_average_hw_grade(),
+                    default=None)
+    if max_grade:
+        best_students = [student for student in student_list if
+                         student.get_average_hw_grade() ==
+                         max_grade.get_average_hw_grade()]
+        if len(best_students) > 1:
+            students_str = ', '.join(f'{student.name} {student.surname}'
+                                     for student in best_students)
+            return f'Лучшие студенты: {students_str}'
+        else:
+            return (f'Лучший студент: {best_students[0].name} '
+                    f'{best_students[0].surname}')
+    return 'Нет студентов для оценки.'
 
 # Example usage
 
